@@ -10,41 +10,39 @@ namespace Fuxion.Identity
 		public static bool IsValid(this IPermission me) => me.Function != null && (me.Scopes?.All(s => s.Discriminator != null) ?? true) && me.Scopes?.Select(s => s.Discriminator.TypeKey).Distinct().Count() == me.Scopes?.Count();
 		internal static bool Match(this IPermission me, bool forFilter, IFunction function, TypeDiscriminator typeDiscriminator, params IDiscriminator[] discriminators)
 		{
-			using (var res = Printer.CallResult<bool>())
+			using var res = Printer.CallResult<bool>();
+			using (Printer.Indent2("Input parameters"))
 			{
-				using (Printer.Indent2("Input parameters"))
-				{
-					Printer.WriteLine($"Permission:");
-					new[] { me }.Print(PrintMode.Table);
-					Printer.WriteLine($"'{nameof(forFilter)}': " + forFilter);
-					Printer.WriteLine($"Function: {function?.Name ?? "<null>"}");
+				Printer.WriteLine($"Permission:");
+				new[] { me }.Print(PrintMode.Table);
+				Printer.WriteLine($"'{nameof(forFilter)}': " + forFilter);
+				Printer.WriteLine($"Function: {function?.Name ?? "<null>"}");
 
-					if (typeDiscriminator != null)
-					{
-						Printer.WriteLine($"'{nameof(typeDiscriminator)}':");
-						new[] { typeDiscriminator }.Print(PrintMode.Table);
-					}
-					else
-						Printer.WriteLine($"'{nameof(typeDiscriminator)}': null");
-					Printer.WriteLine($"Discriminators:");
-					discriminators.Print(PrintMode.Table);
-				}
-				bool Compute()
+				if (typeDiscriminator != null)
 				{
-					if (function == null || !me.MatchByFunction(function))
-					{
-						Printer.WriteLine($"Matching failed on check the function");
-						return false;
-					}
-					if (!me.MatchByDiscriminatorsInclusionsAndExclusions(forFilter, typeDiscriminator, discriminators))
-					{
-						Printer.WriteLine($"Matching failed on check the inclusions/exclusions of discriminator");
-						return false;
-					}
-					return true;
+					Printer.WriteLine($"'{nameof(typeDiscriminator)}':");
+					new[] { typeDiscriminator }.Print(PrintMode.Table);
 				}
-				return res.Value = Compute();
+				else
+					Printer.WriteLine($"'{nameof(typeDiscriminator)}': null");
+				Printer.WriteLine($"Discriminators:");
+				discriminators.Print(PrintMode.Table);
 			}
+			bool Compute()
+			{
+				if (function == null || !me.MatchByFunction(function))
+				{
+					Printer.WriteLine($"Matching failed on check the function");
+					return false;
+				}
+				if (!me.MatchByDiscriminatorsInclusionsAndExclusions(forFilter, typeDiscriminator!, discriminators))
+				{
+					Printer.WriteLine($"Matching failed on check the inclusions/exclusions of discriminator");
+					return false;
+				}
+				return true;
+			}
+			return res.Value = Compute();
 		}
 		internal static bool MatchByFunction(this IPermission me, IFunction function)
 		{

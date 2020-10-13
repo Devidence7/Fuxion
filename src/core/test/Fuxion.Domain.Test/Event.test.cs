@@ -16,7 +16,7 @@ namespace Fuxion.Domain.Test
 				""AggregateId"": ""99c8a592-b2bd-4845-92dd-d4ba857c13a7""
 			}";
 			var @event = eventJson.FromJson<MockEvent>();
-			Assert.NotEqual(Guid.Empty, @event.AggregateId);
+			Assert.NotEqual(Guid.Empty, @event!.AggregateId);
 		}
 	}
 	public class MockEvent : Event

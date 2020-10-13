@@ -34,7 +34,7 @@ namespace Fuxion.Windows.Threading
 				{
 					var r = method.DynamicInvoke(args);
 					return r == null
-						? default
+						? default!
 						: (TResult)r;
 				}).Task;
 		

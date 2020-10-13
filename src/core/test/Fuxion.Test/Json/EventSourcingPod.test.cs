@@ -52,8 +52,8 @@ namespace Fuxion.Test.Json
 			}";
 
 			var pod = json.FromJson<EventSourcingPod>();
-			Assert.Equal("MockEvent", pod.PayloadKey);
-			Assert.Equal(10, pod.TargetVersion);
+			Assert.Equal("MockEvent", pod?.PayloadKey);
+			Assert.Equal(10, pod!.TargetVersion);
 			Assert.False(pod.PayloadHasValue);
 			Assert.Null(pod.Payload);
 

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\core\Application\Fuxion.Application.csproj" />
+    <ProjectReference Include="..\..\Tasks\Domain\Ordinem.Tasks.Domain.csproj" />
     <ProjectReference Include="..\Domain\Ordinem.Calendar.Domain.csproj" />
   </ItemGroup>
 

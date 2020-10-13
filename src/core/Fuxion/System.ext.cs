@@ -17,6 +17,7 @@ using System.Runtime.Serialization;
 using Fuxion.Resources;
 using System.Globalization;
 using Fuxion.Json;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System
 {
@@ -80,6 +81,7 @@ namespace System
 						IgnoreSerializableAttribute = true
 					}));
 		}
+		[return: MaybeNull]
 		public static T FromJson<T>(this string me, JsonSerializerSettings? settings = null) => JsonConvert.DeserializeObject<T>(me, settings);
 		public static object? FromJson(this string me, Type type) => JsonConvert.DeserializeObject(me, type);
 		public static T CloneWithJson<T>(this T me) => (T)(FromJson(

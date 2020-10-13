@@ -24,7 +24,7 @@ namespace Fuxion.Licensing
 		[JsonProperty(PropertyName = "License")]
 		public JRaw RawLicense { get; set; }
 		public LicenseContainer Set(License license) { RawLicense = new JRaw(license.ToJson(Newtonsoft.Json.Formatting.None)); return this; }
-		public T As<T>() where T : License => RawLicense.Value != null ? RawLicense.Value.ToString().FromJson<T>() : default!;
+		public T As<T>() where T : License => RawLicense.Value != null ? RawLicense.Value.ToString().FromJson<T>()! : default!;
 		public License? As(Type type) => (License?)RawLicense.Value?.ToString().FromJson(type);
 		public bool Is<T>() where T : License => Is(typeof(T));
 		public bool Is(Type type)

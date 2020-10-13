@@ -30,7 +30,7 @@ namespace Fuxion.Synchronization
 				// Get master side
 				var masters = Sides.Where(s => s.Definition.IsMaster);
 				if (masters.Count() != 1) throw new ArgumentException($"One, and only one '{nameof(ISide)}' must be the master side");
-				var master = masters.Single();
+				ISideRunner master = masters.Single();
 				MasterSide = master;
 
 				// Determine what sides are sub-sides of others

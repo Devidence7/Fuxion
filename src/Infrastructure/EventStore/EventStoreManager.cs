@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Fuxion.EventStore
 {
@@ -25,25 +26,39 @@ namespace Fuxion.EventStore
 		#region IEventStorage
 		public async Task CommitAsync(Guid aggregateId, IEnumerable<Event> events)
 		{
-			var res = await connection.AppendToStreamAsync(
-				aggregateId.ToString(),
-				ExpectedVersion.Any,
-				events.Select(e =>
-				{
-					var pod = e.ToEventSourcingPod();
-					return new EventData(Guid.NewGuid(), pod.PayloadKey, true, Encoding.Default.GetBytes(pod.ToJson()), null);
-				}).ToArray());
+			try
+			{
+				var res = await connection.AppendToStreamAsync(
+					aggregateId.ToString(),
+					ExpectedVersion.Any,
+					events.Select(e =>
+					{
+						var pod = e.ToEventSourcingPod();
+						return new EventData(Guid.NewGuid(), pod.PayloadKey, true, Encoding.Default.GetBytes(pod.ToJson()), null);
+					}).ToArray());
+
+			}catch(Exception ex)
+			{
+				Debug.WriteLine(ex);
+			}
 		}
 		public async Task<IQueryable<Event>> GetEventsAsync(Guid aggregateId, int start, int count)
 		{
 			// TODO - Implementar un mecanismo de paginación cuando tengo que trearme mas de 4096 eventos
 			var slice = await connection.ReadStreamEventsForwardAsync(aggregateId.ToString(), start, count == int.MaxValue ? 4096 : count, false);
-			return slice.Events.Select(e => Encoding.Default.GetString(e.Event.Data).FromJson<EventSourcingPod>().WithTypeKeyDirectory(typeKeyDirectory)).RemoveNulls().AsQueryable();
+			return slice.Events.Select(e => Encoding.Default.GetString(e.Event.Data).FromJson<EventSourcingPod>()?.WithTypeKeyDirectory(typeKeyDirectory)).RemoveNulls().AsQueryable();
 		}
 		public async Task<Event?> GetLastEventAsync(Guid aggregateId)
 		{
+			try { 
 			var slice = await connection.ReadStreamEventsBackwardAsync(aggregateId.ToString(), StreamPosition.End, 1, false);
-			return slice.Events.Select(e => Encoding.Default.GetString(e.Event.Data).FromJson<EventSourcingPod>().WithTypeKeyDirectory(typeKeyDirectory)).LastOrDefault();
+			return slice.Events.Select(e => Encoding.Default.GetString(e.Event.Data).FromJson<EventSourcingPod>()?.WithTypeKeyDirectory(typeKeyDirectory)).LastOrDefault();
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+				throw ex;
+			}
 		}
 		#endregion
 		#region ISnapshotStorage
@@ -53,7 +68,7 @@ namespace Fuxion.EventStore
 			return slice.Events.Select(e =>
 			{
 				var pod = Encoding.Default.GetString(e.Event.Data).FromJson<JsonPod<Snapshot, string>>();
-				return (Snapshot?)pod.As(typeKeyDirectory[pod.PayloadKey]);
+				return (Snapshot?)pod?.As(typeKeyDirectory[pod.PayloadKey]);
 			}).LastOrDefault();
 		}
 		public async Task SaveSnapshotAsync(Snapshot snapshot)

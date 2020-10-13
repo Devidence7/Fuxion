@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Fuxion.Json
@@ -10,6 +11,7 @@ namespace Fuxion.Json
 	public static class JsonPodExtensions
 	{
 		public static JsonPod<TPayload, TKey> ToJsonPod<TPayload, TKey>(this TPayload me, TKey key) where TPayload : class => new JsonPod<TPayload, TKey>(me, key);
+		[return: MaybeNull]
 		public static JsonPod<TPayload, TKey> FromJsonPod<TPayload, TKey>(this string me) where TPayload : class => me.FromJson<JsonPod<TPayload, TKey>>();
 	}
 	public class JsonPod<TPayload, TKey>
@@ -48,7 +50,7 @@ namespace Fuxion.Json
 						}
 					});
 					if (!wasFailed)
-						Payload = res;
+						Payload = res!;
 				}
 			}
 		}
@@ -70,9 +72,9 @@ namespace Fuxion.Json
 			return payload.Payload;
 		}
 
-		public JsonPod<T, TKey> CastWithPayload<T>() => new JsonPod<T, TKey>(PayloadJRaw.Value != null ? PayloadJRaw.Value.ToString().FromJson<T>() : default, PayloadKey);
+		public JsonPod<T, TKey> CastWithPayload<T>() => new JsonPod<T, TKey>(PayloadJRaw.Value != null ? PayloadJRaw.Value.ToString().FromJson<T>()! : default!, PayloadKey);
 
-		public T As<T>() => PayloadJRaw.Value != null ? PayloadJRaw.Value.ToString().FromJson<T>() : default;
+		public T As<T>() => PayloadJRaw.Value != null ? PayloadJRaw.Value.ToString().FromJson<T>()! : default!;
 		public object? As(Type type) => PayloadJRaw.Value?.ToString().FromJson(type);
 
 		public bool Is<T>() => Is(typeof(T));

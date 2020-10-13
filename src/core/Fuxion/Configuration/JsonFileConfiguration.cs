@@ -40,8 +40,12 @@ namespace Fuxion.Configuration
 		private void Load()
 		{
 			if (File.Exists(Path))
-				foreach (var con in File.ReadAllText(Path).FromJson<JsonPod<object?, Guid>[]>())
+			{
+				var pod = File.ReadAllText(Path).FromJson<JsonPod<object?, Guid>[]>();
+				if (pod == null) throw new InvalidCastException($"File '{Path}' couldn't deserialize.");
+				foreach (var con in pod)
 					items.Add(JsonFileConfigurationItem.FromPod(con));
+			}
 		}
 
 		public void Clear()

@@ -52,7 +52,7 @@ namespace Fuxion.Test.Json
 			var pod = json.FromJsonPod<PayloadBase, string>();
 
 			Output.WriteLine("pod.PayloadJRaw.Value: ");
-			Output.WriteLine(pod.PayloadJRaw.Value?.ToString());
+			Output.WriteLine(pod?.PayloadJRaw.Value?.ToString());
 
 			void AssertBase(PayloadBase payload)
 			{
@@ -65,10 +65,10 @@ namespace Fuxion.Test.Json
 				Assert.Equal("payloadNick", payload.Nick);
 			}
 
-			Assert.Equal("podKey", pod.PayloadKey);
-			AssertBase(pod);
-			Assert.Throws<InvalidCastException>(() => AssertDerived((PayloadDerived)pod));
-			AssertDerived(pod.CastWithPayload<PayloadDerived>());
+			Assert.Equal("podKey", pod?.PayloadKey);
+			AssertBase(pod!);
+			Assert.Throws<InvalidCastException>(() => AssertDerived((PayloadDerived)pod!));
+			AssertDerived(pod!.CastWithPayload<PayloadDerived>());
 		}
 		[Fact(DisplayName = "JsonPod - CastWithPayload")]
 		public void CastWithPayload()
