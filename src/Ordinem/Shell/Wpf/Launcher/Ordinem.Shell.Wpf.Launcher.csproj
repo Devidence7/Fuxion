@@ -30,12 +30,36 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
-		<PackageReference Include="Telerik.Windows.Themes.Fluent.for.Wpf" Version="2019.3.1023" />
+		<!--<PackageReference Include="Telerik.Windows.Themes.Fluent.for.Wpf" Version="2019.3.1023" />-->
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\Calendar\Shell\Wpf\Ordinem.Calendar.Shell.Wpf.csproj" />
 	  <ProjectReference Include="..\..\..\Tasks\Shell\Wpf\Ordinem.Tasks.Shell.Wpf.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Telerik.Windows.Controls">
+			<HintPath>..\..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R3 2020\Binaries.NoXaml\NetCore\Telerik.Windows.Controls.dll</HintPath>
+		</Reference>
+		<Reference Include="Telerik.Windows.Controls">
+			<HintPath>..\..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R3 2020\Binaries.NoXaml\NetCore\Telerik.Windows.Controls.Navigation.dll</HintPath>
+		</Reference>
+		<Reference Include="Telerik.Windows.Controls.Data">
+			<HintPath>..\..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R3 2020\Binaries.NoXaml\NetCore\Telerik.Windows.Controls.Data.dll</HintPath>
+		</Reference>
+		<Reference Include="Telerik.Windows.Controls.Docking">
+			<HintPath>..\..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R3 2020\Binaries.NoXaml\NetCore\Telerik.Windows.Controls.Docking.dll</HintPath>
+		</Reference>
+		<Reference Include="Telerik.Windows.Controls.GridView">
+			<HintPath>..\..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R3 2020\Binaries.NoXaml\NetCore\Telerik.Windows.Controls.GridView.dll</HintPath>
+		</Reference>
+		<Reference Include="Telerik.Windows.Controls.GridView">
+			<HintPath>..\..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R3 2020\Binaries.NoXaml\NetCore\Telerik.Windows.Data.dll</HintPath>
+		</Reference>
+		<Reference Include="Telerik.Windows.Themes.Fluent">
+		  <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R3 2020\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Fluent.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 
 	<ItemGroup>

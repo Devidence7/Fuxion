@@ -17,4 +17,8 @@
 		<PackageReference Include="Ocelot" Version="13.8.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Launcher\Ordinem.Shell.Wpf.Launcher.csproj" />
+	</ItemGroup>
+
 </Project>

@@ -14,7 +14,7 @@
 	<ItemGroup>
 		<PackageReference Include="DynamicData.ReactiveUI" Version="6.11.0.2613" />
 		<PackageReference Include="Polly" Version="7.2.0" />
-		<PackageReference Include="Telerik.Windows.Controls.Data.for.Wpf" Version="2019.3.1023" />
+		<!--<PackageReference Include="Telerik.Windows.Controls.Data.for.Wpf" Version="2019.3.1023" />-->
 	</ItemGroup>
 
 	<ItemGroup>
@@ -31,6 +31,25 @@
 		</Page>
 		
 		<None Remove="Views\AppointmentListView.xaml" />
+		
+		<Reference Include="Telerik.Windows.Controls">
+		  <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R3 2020\Binaries.NoXaml\NetCore\Telerik.Windows.Controls.dll</HintPath>
+		</Reference>
+		<Reference Include="Telerik.Windows.Controls">
+			<HintPath>..\..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R3 2020\Binaries.NoXaml\NetCore\Telerik.Windows.Controls.Navigation.dll</HintPath>
+		</Reference>
+		<Reference Include="Telerik.Windows.Controls.Data">
+		  <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R3 2020\Binaries.NoXaml\NetCore\Telerik.Windows.Controls.Data.dll</HintPath>
+		</Reference>
+		<Reference Include="Telerik.Windows.Controls.Docking">
+		  <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R3 2020\Binaries.NoXaml\NetCore\Telerik.Windows.Controls.Docking.dll</HintPath>
+		</Reference>
+		<Reference Include="Telerik.Windows.Controls.GridView">
+		  <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R3 2020\Binaries.NoXaml\NetCore\Telerik.Windows.Controls.GridView.dll</HintPath>
+		</Reference>
+		<Reference Include="Telerik.Windows.Controls.GridView">
+			<HintPath>..\..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for WPF R3 2020\Binaries.NoXaml\NetCore\Telerik.Windows.Data.dll</HintPath>
+		</Reference>
 		<Compile Update="Views\AppointmentListView.xaml.cs" />
 		<Page Update="Views\AppointmentListView.xaml">
 			<Generator>MSBuild:Compile</Generator>
